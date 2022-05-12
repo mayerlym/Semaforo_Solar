@@ -1,0 +1,56 @@
+#include <SD.h> // incluir memoria sd
+#include <SPI.h>  //conexion bus
+
+
+unsigned long tempdatainter= 60000;
+unsigned long previusMillis= 0;
+ 
+
+int UVOUT = A5;
+int 3v3= A4; //fuente de alimentancion
+File datoLogger;
+const int ssSD =53;
+char buf [60];
+const int analogPin=0;
+
+
+void setup() {
+
+
+SD.begin(ssSD);
+
+pinMode(UVOUT, INPUT);
+pinMode (3v3, INPUT);
+
+Serial.begin(9600);
+while(!Serial){
+}
+Serial.println ("Inicializando tarjeta sd");
+
+if(!SD.begin()){
+
+  Serial.println ("Fallo en la tarjeta, no hay tarjeta");
+  return;
+ Serial.println ("tarjeta lista");
+ SD.remove("datalog.txt");
+}
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+ String dataString = "";
+ sensor = analogRead(analogPin);
+ dataString += String(radiación);
+ File dataFile= SD.open("datalog.txt", FILE_WRITE);
+ if (datafile){
+  dataFile.println(dataString);
+  dataFile.close();
+  
+ }
+
+ else{
+  Serial.println ("Error al abrir el archivo datalog.txt");
+ }
+delay(60000);
+ }
